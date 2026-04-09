@@ -20,7 +20,6 @@ public class Searcher implements SearchOperations {
     artists = new HashSet<>();
     titles = new HashSet<>();
 
-
     for (Recording r : data){
       artists.add(r.getArtist());
       titles.add(r.getTitle());
@@ -49,7 +48,7 @@ public class Searcher implements SearchOperations {
   @Override
   public boolean doesArtistExist(String name) {
     // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'doesArtistExist'");
+    return artists.contains(name);
   }
     //simon
   @Override
@@ -61,6 +60,7 @@ public class Searcher implements SearchOperations {
   @Override
   public Recording getRecordingByName(String title) {
     // TODO Auto-generated method stub
+
     throw new UnsupportedOperationException("Unimplemented method 'getRecordingByName'");
   }
     //simon
