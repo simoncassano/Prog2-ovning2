@@ -1,9 +1,6 @@
 package se.su.ovning2;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.SortedSet;
+import java.util.*;
 
 public class Searcher implements SearchOperations {
 
@@ -11,6 +8,7 @@ public class Searcher implements SearchOperations {
   private Set<String> artists;
   private Set<String> titles;
   private Collection<Recording> recordings;
+  private Map<String, Recording> recordingsByTitle;
 // ^ instansvariabler ^
 
   public Searcher(Collection<Recording> data) {
@@ -26,6 +24,12 @@ public class Searcher implements SearchOperations {
       genres.addAll(r.getGenre());
     }/*For loop som lägger till varje artist från varje recording i en hash set och gör samma sak för
     titles och genrer.*/
+
+    recordingsByTitle = new HashMap<>();
+    for (Recording r: data){
+      recordingsByTitle.put(r.getTitle(), r);
+    }/*Sparar varje recording i en map med titel som nyckel*/
+
   }
     //simon
   @Override
@@ -60,8 +64,8 @@ public class Searcher implements SearchOperations {
   @Override
   public Recording getRecordingByName(String title) {
     // TODO Auto-generated method stub
-
-    throw new UnsupportedOperationException("Unimplemented method 'getRecordingByName'");
+    return recordingsByTitle.get(title);
+    //Hämtar recordingen som har parameterns titel från hashmapen recordingsByTitle.
   }
     //simon
   @Override
