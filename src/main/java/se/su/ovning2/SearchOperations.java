@@ -3,7 +3,7 @@ package se.su.ovning2;
 import java.util.Collection;
 import java.util.SortedSet;
 
-interface SearchOperations {
+interface   SearchOperations {
   /**
    * Returnerar antalet unika artister
    *
