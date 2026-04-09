@@ -30,8 +30,8 @@ public class Searcher implements SearchOperations {
     //simon
   @Override
   public long numberOfArtists() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'numberOfArtists'");
+    return artists.size();
+
   }
     //antonios
   @Override
@@ -41,8 +41,7 @@ public class Searcher implements SearchOperations {
     //simon
   @Override
   public long numberOfTitles() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'numberOfTitles'");
+    return titles.size();
   }
   //antonios
   @Override
