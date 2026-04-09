@@ -1,11 +1,10 @@
 package se.su.ovning2;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.SortedSet;
+import java.util.*;
 
 public class Searcher implements SearchOperations {
+
+
 
     private Set<String> genres;
     private Set<String> artists;
@@ -57,8 +56,8 @@ public class Searcher implements SearchOperations {
     //simon
     @Override
     public Collection<String> getGenres() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getGenres'");
+        return Collections.unmodifiableSet(genres);
+
     }
 
     //antonios
