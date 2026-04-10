@@ -51,7 +51,6 @@ public class Searcher implements SearchOperations {
   //antonios
   @Override
   public boolean doesArtistExist(String name) {
-    // TODO Auto-generated method stub
     return artists.contains(name);
   }
     //simon
@@ -63,7 +62,6 @@ public class Searcher implements SearchOperations {
     //antonios
   @Override
   public Recording getRecordingByName(String title) {
-    // TODO Auto-generated method stub
     return recordingsByTitle.get(title);
     //Hämtar recordingen som har parameterns titel från hashmapen recordingsByTitle.
   }
@@ -76,7 +74,7 @@ public class Searcher implements SearchOperations {
     //antonios
   @Override
   public SortedSet<Recording> getRecordingsByArtistOrderedByYearAsc(String artist) {
-    // TODO Auto-generated method stub
+      
     throw new UnsupportedOperationException(
         "Unimplemented method 'getRecordingsByArtistOrderedByYearAsc'");
   }
