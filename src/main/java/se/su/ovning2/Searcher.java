@@ -8,7 +8,11 @@ public class Searcher implements SearchOperations {
     private Set<String> artists;
     private Set<String> titles;
     private Collection<Recording> recordings;
+
     private Map<String, Recording> recordingsByTitle;
+    private Map<String, Set<Recording>> recordingByArtist;
+    private Map<String, Set<Recording>> recordingByGenre;
+    private TreeMap<Integer, Set<Recording>> recordingByYear;
 // ^ instansvariabler ^
 
     public Searcher(Collection<Recording> data) {
@@ -17,6 +21,7 @@ public class Searcher implements SearchOperations {
         genres = new HashSet<>();
         artists = new HashSet<>();
         titles = new HashSet<>();
+        recordings = new HashSet<>();
 
         for (Recording r : data) {
             artists.add(r.getArtist());
@@ -26,6 +31,9 @@ public class Searcher implements SearchOperations {
     titles och genrer.*/
 
         recordingsByTitle = new HashMap<>();
+        recordingByArtist = new HashMap<>();
+        recordingByGenre = new HashMap<>();
+
         for (Recording r : data) {
             recordingsByTitle.put(r.getTitle(), r);
         }/*Sparar varje recording i en map med titel som nyckel*/
