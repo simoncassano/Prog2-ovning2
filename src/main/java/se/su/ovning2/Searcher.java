@@ -16,12 +16,11 @@ public class Searcher implements SearchOperations {
 // ^ instansvariabler ^
 
     public Searcher(Collection<Recording> data) {
-        recordings = data;
 
         genres = new HashSet<>();
         artists = new HashSet<>();
         titles = new HashSet<>();
-        recordings = new HashSet<>();
+        recordings = new HashSet<>(data);
 
         for (Recording r : data) {
             artists.add(r.getArtist());
@@ -33,10 +32,31 @@ public class Searcher implements SearchOperations {
         recordingsByTitle = new HashMap<>();
         recordingByArtist = new HashMap<>();
         recordingByGenre = new HashMap<>();
+        recordingByYear = new TreeMap<>();
 
         for (Recording r : data) {
             recordingsByTitle.put(r.getTitle(), r);
-        }/*Sparar varje recording i en map med titel som nyckel*/
+            /*Sparar varje recording i en map med titel som nyckel*/
+
+            if (!recordingByArtist.containsKey(r.getArtist())) {
+                recordingByArtist.put(r.getArtist(), new HashSet<>());
+            }
+            recordingByArtist.get(r.getArtist()).add(r);
+            // kollar om artisten redan finns i mapen, om inte skapas ett nytt Set för att lagra recordings för denna artist
+            // hämtar sedan set för artisten och lägger till i mapen
+
+            for(String genre : r.getGenre()) {
+                if(!recordingByGenre.containsKey(genre)) {
+                    recordingByGenre.put(genre, new HashSet<>());
+                }
+                recordingByGenre.get(genre).add(r);
+            }
+
+            if(!recordingByYear.containsKey(r.getYear())) {
+                recordingByYear.put(r.getYear(), new HashSet<>());
+            }
+            recordingByYear.get(r.getYear()).add(r);
+        }
 
     }
 
@@ -81,8 +101,17 @@ public class Searcher implements SearchOperations {
     //simon
     @Override
     public Collection<Recording> getRecordingsAfter(int year) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRecordingsAfter'");
+        SortedMap<Integer, Set<Recording>> tail = recordingByYear.tailMap(year);
+        //hämtar en Map av alla recordings som är >= det angivna året
+        Set<Recording> result = new HashSet<>();
+        //skapar ett set där alla dessa recordings ska samlas
+
+        for (Set<Recording> set : tail.values()) {
+            result.addAll(set);
+            //loopar igenom alla dessa recordings och lägger till de i result
+        }
+        return Collections.unmodifiableSet(result);
+        //returnerar en omodifierbar set med dessa recordings
     }
 
     //antonios
