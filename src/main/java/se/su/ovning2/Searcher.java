@@ -16,7 +16,7 @@ public class Searcher implements SearchOperations {
 // ^ instansvariabler ^
 
     public Searcher(Collection<Recording> data) {
-        recordings = data;
+        recordings = new HashSet<>(data);
 
         genres = new HashSet<>();
         artists = new HashSet<>();
@@ -43,14 +43,14 @@ public class Searcher implements SearchOperations {
             recordingsByArtist.get(r.getArtist()).add(r);
             /*Sparar varje recording i en map med artist som nyckel*/
 
-            for(String genre : r.getGenre()) {
-                if(!recordingByGenre.containsKey(genre)) {
+            for (String genre : r.getGenre()) {
+                if (!recordingByGenre.containsKey(genre)) {
                     recordingByGenre.put(genre, new HashSet<>());
                 }
                 recordingByGenre.get(genre).add(r);
             }
 
-            if(!recordingByYear.containsKey(r.getYear())) {
+            if (!recordingByYear.containsKey(r.getYear())) {
                 recordingByYear.put(r.getYear(), new HashSet<>());
             }
             recordingByYear.get(r.getYear()).add(r);
@@ -87,7 +87,6 @@ public class Searcher implements SearchOperations {
     //simon
     @Override
     public Collection<String> getGenres() {
-        // TODO Auto-generated method stub
         return Collections.unmodifiableSet(genres);
     }
 
@@ -121,7 +120,7 @@ public class Searcher implements SearchOperations {
         SortedSet<Recording> result = new TreeSet<>(Comparator.comparingInt(Recording::getYear).thenComparing(Recording::getTitle));
 
         /*Kontrollera om artisten finns i vår map*/
-        if (recordingsByArtist.containsKey(artist)){
+        if (recordingsByArtist.containsKey(artist)) {
             result.addAll(recordingsByArtist.get(artist));
         }
         return Collections.unmodifiableSortedSet(result);
@@ -130,23 +129,27 @@ public class Searcher implements SearchOperations {
     //simon
     @Override
     public Collection<Recording> getRecordingsByGenre(String genre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRecordingsByGenre'");
+        //om genren inte finns returneras en tom samling
+        if (!recordingByGenre.containsKey(genre)) {
+            return Collections.emptySet();
+        }
+
+        return Collections.unmodifiableSet(recordingByGenre.get(genre));
+        //returnerar setet som finns, omodifierbart
     }
 
     //antonios
     @Override
     public Collection<Recording> getRecordingsByGenreAndYear(String genre, int yearFrom, int yearTo) {
-        // TODO Auto-generated method stub
 
         Set<Recording> result = new HashSet<>();
         //Kontrollera att genren finns i vår map
-        if (recordingsByGenre.containsKey(genre)){
+        if (recordingByGenre.containsKey(genre)) {
 
             //Hämta alla genren som finns i vår map och gå igenom de en i taget
-            for (Recording r : recordingsByGenre.get(genre)){
+            for (Recording r : recordingByGenre.get(genre)) {
                 //Filtrering
-                if (r.getYear() >= yearFrom && r.getYear() <= yearTo){
+                if (r.getYear() >= yearFrom && r.getYear() <= yearTo) {
                     result.add(r);
                 }
             }
@@ -158,12 +161,17 @@ public class Searcher implements SearchOperations {
     //simon
     @Override
     public Collection<Recording> offerHasNewRecordings(Collection<Recording> offered) {
-        // TODO Auto-generated method stub
 
-        throw new UnsupportedOperationException("Unimplemented method 'offerHasNewRecordings'");
+        Set<Recording> result = new HashSet<>();
+
+        for (Recording r : offered) {
+            if (!recordings.contains(r)) {
+                result.add(r);
+            }
+        }
+        return Collections.unmodifiableSet(result);
+
     }
-
-
 
 
 }
